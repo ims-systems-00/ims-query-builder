@@ -1,0 +1,6 @@
+.git
+src
+node_modules
+*.ts
+*.map
+tsconfig.json
