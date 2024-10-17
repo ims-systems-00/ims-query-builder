@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 function _mongoIdTypeCastIfvalid(obj) {
   if (typeof obj !== "object" || obj === null) {
     return obj;
@@ -41,8 +42,14 @@ export class QueryBuilder {
       strictObjectIdMatch: false,
     }
   ) {
-    this.filterQuery = queryObjet.query || {};
-    this.filterQueryStr = JSON.stringify(queryObjet.query);
+    this.filterQuery = queryObjet || {};
+    this.queryOptions = {
+      sort: undefined,
+      select: undefined,
+      page: undefined,
+      limit: undefined,
+    };
+    this.filterQueryStr = JSON.stringify(queryObjet);
     this.searchFields = options?.searchFields || [];
     this.strictObjectIdMatch = options?.strictObjectIdMatch || false;
   }
@@ -134,11 +141,13 @@ export class QueryBuilder {
     return this;
   }
   private search() {
+    console.log("search", this.filterQuery.clientSearch);
     if (!this.filterQuery.clientSearch || !this.searchFields.length) {
       delete this.filterQuery["clientSearch"];
       this.filterQueryStr = JSON.stringify(this.filterQuery);
       return this;
     }
+
     let searchQuery = this.filterQuery.$or || [];
     this.filterQuery.$or = [
       ...searchQuery,
@@ -156,7 +165,7 @@ export class QueryBuilder {
     this.filterQueryStr = JSON.stringify(this.filterQuery);
     return this;
   }
-  build() {
+  public build() {
     /**
      * Sequence of function call matters here, if correct sequence is not maintained
      * search feature along with some other will break.
@@ -165,17 +174,18 @@ export class QueryBuilder {
     this.formatOperators();
     this.dotNotate(JSON.parse(this.filterQueryStr), {}, "");
     this.search();
+    console.log("this.filterQueryStr", this.filterQueryStr);
     return this;
   }
-  getFilterQueryString() {
+  public getFilterQueryString() {
     return this.filterQueryStr;
   }
-  getFilterQuery() {
+  public getFilterQuery() {
     return this.strictObjectIdMatch
       ? _mongoIdTypeCastIfvalid(JSON.parse(this.filterQueryStr))
       : JSON.parse(this.filterQueryStr);
   }
-  getQueryOptions() {
+  public getQueryOptions() {
     return this.queryOptions;
   }
 }
