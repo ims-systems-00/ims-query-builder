@@ -129,7 +129,7 @@ export class QueryBuilder {
   }
   private formatOptions() {
     // assert options
-    this.queryOptions.page = this.filterQuery.limit;
+    this.queryOptions.page = this.filterQuery.page;
     this.queryOptions.limit = this.filterQuery.limit;
     this.queryOptions.select = this.filterQuery.select;
     this.queryOptions.sort = this.filterQuery.sort;
