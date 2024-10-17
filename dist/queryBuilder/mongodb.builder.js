@@ -30,8 +30,14 @@ class QueryBuilder {
         searchFields: [],
         strictObjectIdMatch: false,
     }) {
-        this.filterQuery = queryObjet.query || {};
-        this.filterQueryStr = JSON.stringify(queryObjet.query);
+        this.filterQuery = queryObjet || {};
+        this.queryOptions = {
+            sort: "",
+            select: "",
+            page: 1,
+            limit: 10,
+        };
+        this.filterQueryStr = JSON.stringify(queryObjet);
         this.searchFields = (options === null || options === void 0 ? void 0 : options.searchFields) || [];
         this.strictObjectIdMatch = (options === null || options === void 0 ? void 0 : options.strictObjectIdMatch) || false;
     }
@@ -112,7 +118,7 @@ class QueryBuilder {
     }
     formatOptions() {
         // assert options
-        this.queryOptions.page = this.filterQuery.limit;
+        this.queryOptions.page = this.filterQuery.page;
         this.queryOptions.limit = this.filterQuery.limit;
         this.queryOptions.select = this.filterQuery.select;
         this.queryOptions.sort = this.filterQuery.sort;
@@ -124,6 +130,7 @@ class QueryBuilder {
         return this;
     }
     search() {
+        console.log("search", this.filterQuery.clientSearch);
         if (!this.filterQuery.clientSearch || !this.searchFields.length) {
             delete this.filterQuery["clientSearch"];
             this.filterQueryStr = JSON.stringify(this.filterQuery);
@@ -154,6 +161,7 @@ class QueryBuilder {
         this.formatOperators();
         this.dotNotate(JSON.parse(this.filterQueryStr), {}, "");
         this.search();
+        console.log("this.filterQueryStr", this.filterQueryStr);
         return this;
     }
     getFilterQueryString() {
