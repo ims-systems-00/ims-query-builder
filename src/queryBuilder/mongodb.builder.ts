@@ -44,10 +44,10 @@ export class QueryBuilder {
   ) {
     this.filterQuery = queryObjet || {};
     this.queryOptions = {
-      sort: undefined,
-      select: undefined,
-      page: undefined,
-      limit: undefined,
+      sort: "",
+      select: "",
+      page: 1,
+      limit: 10,
     };
     this.filterQueryStr = JSON.stringify(queryObjet);
     this.searchFields = options?.searchFields || [];
