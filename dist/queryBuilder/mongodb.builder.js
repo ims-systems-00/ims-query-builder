@@ -32,10 +32,10 @@ class QueryBuilder {
     }) {
         this.filterQuery = queryObjet || {};
         this.queryOptions = {
-            sort: "",
-            select: "",
-            page: 1,
-            limit: 10,
+            sort: undefined,
+            select: undefined,
+            page: undefined,
+            limit: undefined,
         };
         this.filterQueryStr = JSON.stringify(queryObjet);
         this.searchFields = (options === null || options === void 0 ? void 0 : options.searchFields) || [];
@@ -127,10 +127,10 @@ class QueryBuilder {
         delete this.filterQuery.limit;
         delete this.filterQuery.select;
         delete this.filterQuery.sort;
+        delete this.filterQuery.size;
         return this;
     }
     search() {
-        console.log("search", this.filterQuery.clientSearch);
         if (!this.filterQuery.clientSearch || !this.searchFields.length) {
             delete this.filterQuery["clientSearch"];
             this.filterQueryStr = JSON.stringify(this.filterQuery);
@@ -161,7 +161,6 @@ class QueryBuilder {
         this.formatOperators();
         this.dotNotate(JSON.parse(this.filterQueryStr), {}, "");
         this.search();
-        console.log("this.filterQueryStr", this.filterQueryStr);
         return this;
     }
     getFilterQueryString() {

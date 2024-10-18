@@ -138,10 +138,10 @@ export class QueryBuilder {
     delete this.filterQuery.limit;
     delete this.filterQuery.select;
     delete this.filterQuery.sort;
+    delete this.filterQuery.size;
     return this;
   }
   private search() {
-    console.log("search", this.filterQuery.clientSearch);
     if (!this.filterQuery.clientSearch || !this.searchFields.length) {
       delete this.filterQuery["clientSearch"];
       this.filterQueryStr = JSON.stringify(this.filterQuery);
@@ -174,7 +174,6 @@ export class QueryBuilder {
     this.formatOperators();
     this.dotNotate(JSON.parse(this.filterQueryStr), {}, "");
     this.search();
-    console.log("this.filterQueryStr", this.filterQueryStr);
     return this;
   }
   public getFilterQueryString() {
