@@ -103,9 +103,14 @@ export class QueryBuilder {
                   !Array.isArray(operatorNest)
                 )
                   result[key] = {
+                    ...result[key],
                     [operatorMap[op]]: processObject(operatorNest),
                   };
-                else result[key] = { [operatorMap[op]]: operatorNest };
+                else
+                  result[key] = {
+                    ...result[key],
+                    [operatorMap[op]]: operatorNest,
+                  };
                 foundOperator = true;
                 // break;
               }
