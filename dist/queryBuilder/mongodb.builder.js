@@ -89,11 +89,9 @@ class QueryBuilder {
                                 if (typeof operatorNest === "object" &&
                                     operatorNest !== null &&
                                     !Array.isArray(operatorNest))
-                                    result[key] = {
-                                        [operatorMap[op]]: processObject(operatorNest),
-                                    };
+                                    result[key] = Object.assign(Object.assign({}, result[key]), { [operatorMap[op]]: processObject(operatorNest) });
                                 else
-                                    result[key] = { [operatorMap[op]]: operatorNest };
+                                    result[key] = Object.assign(Object.assign({}, result[key]), { [operatorMap[op]]: operatorNest });
                                 foundOperator = true;
                                 // break;
                             }
