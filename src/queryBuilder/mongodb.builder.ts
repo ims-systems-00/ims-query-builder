@@ -107,7 +107,7 @@ export class QueryBuilder {
                   };
                 else result[key] = { [operatorMap[op]]: operatorNest };
                 foundOperator = true;
-                break;
+                // break;
               }
             }
             if (!foundOperator) {
